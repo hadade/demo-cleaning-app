@@ -21,7 +21,9 @@ import {
   Clock, 
   Users,
   CheckCircle,
-  Quote
+  Quote,
+  Menu,
+  X
 } from 'lucide-react';
 
 const services = [
@@ -118,6 +120,8 @@ export default function HomePage() {
     message: ''
   });
 
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -127,9 +131,25 @@ export default function HomePage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
     console.log('Form submitted:', formData);
     alert('Formularul a fost trimis cu succes! Vă vom contacta în curând.');
+  };
+
+  // Helper to get offset for scroll (e.g., header height)
+  const getScrollOffset = () => {
+    if (typeof window === 'undefined') return 0;
+    // Adjust this value to match your header height (e.g., 80px)
+    // You can also make this responsive if needed
+    return window.innerWidth < 768 ? 72 : 80;
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const el = document.getElementById(sectionId);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.pageYOffset - getScrollOffset();
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+    setIsMobileMenuOpen(false); // Close mobile menu after clicking
   };
 
   return (
@@ -144,27 +164,103 @@ export default function HomePage() {
                 CurățeniePro
               </span>
             </div>
+            
+            {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
-              <a href="#servicii" className="text-gray-700 hover:text-blue-600 transition-colors">Servicii</a>
-              <a href="#preturi" className="text-gray-700 hover:text-blue-600 transition-colors">Prețuri</a>
-              <a href="#testimoniale" className="text-gray-700 hover:text-blue-600 transition-colors">Testimoniale</a>
-              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+              <button onClick={() => scrollToSection('despre')} className="text-gray-700 hover:text-blue-600 transition-colors">
+                Despre
+              </button>
+              <button onClick={() => scrollToSection('servicii')} className="text-gray-700 hover:text-blue-600 transition-colors">
+                Servicii
+              </button>
+              <button onClick={() => scrollToSection('preturi')} className="text-gray-700 hover:text-blue-600 transition-colors">
+                Prețuri
+              </button>
+              <button onClick={() => scrollToSection('testimoniale')} className="text-gray-700 hover:text-blue-600 transition-colors">
+                Testimoniale
+              </button>
+              <button onClick={() => scrollToSection('contact')} className="text-gray-700 hover:text-blue-600 transition-colors">
+                Contact
+              </button>
             </nav>
+
             <div className="flex items-center space-x-4">
               <div className="hidden sm:flex items-center space-x-2 text-sm text-gray-600">
                 <Phone className="h-4 w-4" />
                 <span>0721 234 567</span>
               </div>
-              <Button asChild className="bg-blue-600 hover:bg-blue-700">
+              <Button asChild className="hidden sm:inline-flex bg-blue-600 hover:bg-blue-700">
                 <Link href="#contact">Solicită Ofertă</Link>
               </Button>
+              
+              {/* Mobile Menu Button */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-gray-100 transition-colors"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-6 w-6" />
+                ) : (
+                  <Menu className="h-6 w-6" />
+                )}
+              </button>
             </div>
           </div>
+
+          {/* Mobile Navigation Menu */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden border-t border-gray-200 py-4">
+              <nav className="flex flex-col space-y-4">
+                <button 
+                  onClick={() => scrollToSection('despre')} 
+                  className="text-left text-gray-700 hover:text-blue-600 transition-colors py-2"
+                >
+                  Despre
+                </button>
+                <button 
+                  onClick={() => scrollToSection('servicii')} 
+                  className="text-left text-gray-700 hover:text-blue-600 transition-colors py-2"
+                >
+                  Servicii
+                </button>
+                <button 
+                  onClick={() => scrollToSection('preturi')} 
+                  className="text-left text-gray-700 hover:text-blue-600 transition-colors py-2"
+                >
+                  Prețuri
+                </button>
+                <button 
+                  onClick={() => scrollToSection('testimoniale')} 
+                  className="text-left text-gray-700 hover:text-blue-600 transition-colors py-2"
+                >
+                  Testimoniale
+                </button>
+                <button 
+                  onClick={() => scrollToSection('contact')} 
+                  className="text-left text-gray-700 hover:text-blue-600 transition-colors py-2"
+                >
+                  Contact
+                </button>
+                <div className="pt-4 border-t border-gray-200">
+                  <div className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
+                    <Phone className="h-4 w-4" />
+                    <span>0721 234 567</span>
+                  </div>
+                  <Button 
+                    onClick={() => scrollToSection('contact')} 
+                    className="w-full bg-blue-600 hover:bg-blue-700"
+                  >
+                    Solicită Ofertă
+                  </Button>
+                </div>
+              </nav>
+            </div>
+          )}
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 lg:py-32">
+      {/* Hero + Despre Section */}
+      <section id="despre" className="relative overflow-hidden py-20 lg:py-32">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-green-600/10"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -186,12 +282,30 @@ export default function HomePage() {
                 </p>
               </div>
               
+              {/* Despre Section */}
+              <div className="bg-white/80 rounded-xl shadow-md p-6 border border-gray-100">
+                <h2 className="text-2xl font-bold text-blue-700 mb-2">Despre CurățeniePro</h2>
+                <p className="text-gray-700 text-base mb-2">
+                  CurățeniePro este o companie românească dedicată excelenței în servicii de curățenie pentru locuințe și afaceri. 
+                  Cu o echipă atent selecționată și peste 5 ani de experiență, ne mândrim cu profesionalismul, punctualitatea și atenția la detalii.
+                </p>
+                <p className="text-gray-700 text-base">
+                  Misiunea noastră este să oferim clienților un mediu curat, sigur și plăcut, folosind metode moderne și soluții prietenoase cu mediul. 
+                  Ne adaptăm fiecărei cerințe și garantăm satisfacția fiecărui client!
+                </p>
+              </div>
+
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3" onClick={() => window.location.href = 'tel:0721234567'}>
                   <Phone className="mr-2 h-5 w-5" />
                   Sună Acum
                 </Button>
-                <Button variant="outline" size="lg" className="px-8 py-3">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="px-8 py-3"
+                  onClick={() => scrollToSection('servicii')}
+                >
                   Vezi Serviciile
                 </Button>
               </div>
