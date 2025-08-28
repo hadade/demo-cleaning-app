@@ -2,16 +2,15 @@
   "name": "nextjs",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://hadade.github.io/demo-cleaning-app",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next export",
-    "predeploy": "npm run build",
+    "predeploy": "next build && touch out/.nojekyll",
     "deploy": "gh-pages -d out"
   },
-  "homepage": "https://hadade.github.io/demo-cleaning-app",
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@next/swc-wasm-nodejs": "13.5.1",

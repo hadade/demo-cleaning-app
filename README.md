@@ -42,3 +42,5 @@ In the project directory, you can run the following commands:
 - `npm run build`: Builds the application for production.
 - `npm run start`: Starts the production server.
 - `npm run lint`: Lints the codebase using Next.js's built-in ESLint configuration.
+- `npm run predeploy`: Builds the application and creates `.nojekyll` file for GitHub Pages.
+- `npm run deploy`: Deploys the built application to GitHub Pages using the `gh-pages` branch.
