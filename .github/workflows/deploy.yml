@@ -3,7 +3,7 @@ name: Deploy Demo Cleaning App
 on:
   push:
     branches:
-      - main  # Trigger on pushes to main branch
+      - main  # Trigger on pushes to the main branch
 
 jobs:
   deploy:
@@ -33,7 +33,7 @@ jobs:
 
       # 5. Deploy to gh-pages
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v6
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
