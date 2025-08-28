@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -213,10 +214,12 @@ export default function HomePage() {
 
             <div className="relative">
               <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
-                <img 
+                <Image 
                   src="https://images.pexels.com/photos/38325/vacuum-cleaner-carpet-cleaner-housework-housekeeping-38325.jpeg"
                   alt="Servicii de curățenie profesională"
-                  className="w-full h-full object-cover"
+                  // className="w-full h-full object-cover"
+                  layout="fill"
+                  objectFit="cover"
                 />
               </div>
               <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-6">
@@ -329,9 +332,11 @@ export default function HomePage() {
             </div>
             
             <div className="relative">
-              <img 
+              <Image 
                 src="https://images.pexels.com/photos/6195900/pexels-photo-6195900.jpeg"
                 alt="Echipa profesională de curățenie"
+                width={550}
+                height={550}
                 className="rounded-2xl shadow-2xl w-full h-auto"
               />
             </div>
@@ -423,10 +428,12 @@ export default function HomePage() {
                   <p className="text-gray-600 mb-6 italic">"{testimonial.content}"</p>
                   
                   <div className="flex items-center">
-                    <img 
+                    <Image 
                       src={testimonial.image}
                       alt={testimonial.name}
                       className="w-12 h-12 rounded-full object-cover mr-4"
+                      width={550}
+                      height={550}
                     />
                     <div>
                       <div className="font-semibold text-gray-900">{testimonial.name}</div>
