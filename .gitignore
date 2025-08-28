@@ -10,7 +10,7 @@
 
 # next.js  - ignore if you need to export the app as static html
 /.next/
-# /out/
+/out/
 
 # production
 /build
